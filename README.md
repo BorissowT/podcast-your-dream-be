@@ -8,3 +8,17 @@ mutation {
     }
   }
 }
+
+mutation {
+  createPodcast(title:"test", linkToApi:"https://www.google.com/maps") {
+    title
+  }
+}
+
+query{
+  podcasts{
+    id
+    title
+    linkToApi
+  }
+}

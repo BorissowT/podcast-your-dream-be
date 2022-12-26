@@ -1,6 +1,7 @@
 import graphene
 import graphql_jwt
 
+import playlists.schema
 import podcasts.schema
 import users.schema
 

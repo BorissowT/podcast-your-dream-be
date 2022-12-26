@@ -1,7 +1,5 @@
 import graphene
 from graphene_django import DjangoObjectType
-from users.schema import UserType
-from graphql import GraphQLError
 from django.db.models import Q
 
 from podcasts.models import Podcast
