@@ -23,6 +23,25 @@ query{
   }
 }
 
+mutation{
+  addPodcastToPlaylist(podcastId: 1, playlistId: 1){
+    user{
+      id
+      username
+      email
+    }
+    podcast{
+      id
+    	title
+    	linkToApi
+    }
+    playlist{
+      id
+      title
+    }
+  }
+}
+
 ### Authorisation
 
 mutation { tokenAuth(username:"tim",password:"12345"){ token } }

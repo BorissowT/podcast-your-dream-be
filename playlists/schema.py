@@ -1,8 +1,11 @@
 import graphene
 from django.db.models import Q
 from graphene_django import DjangoObjectType
+from graphql import GraphQLError
 
 from playlists.models import Playlist
+from podcasts.models import Podcast
+from podcasts.schema import PodcastType
 from users.schema import UserType
 
 
@@ -62,6 +65,34 @@ class CreatePlaylist(graphene.Mutation):
         )
 
 
+class AddPodcastToPlaylist(graphene.Mutation):
+    user = graphene.Field(UserType)
+    podcast = graphene.Field(PodcastType)
+    playlist = graphene.Field(PlaylistType)
+
+    class Arguments:
+        podcast_id = graphene.Int()
+        playlist_id = graphene.Int()
+
+    def mutate(self, info, podcast_id, playlist_id):
+        user = info.context.user
+        if user.is_anonymous:
+            raise GraphQLError('You must be logged to vote!')
+
+        podcast = Podcast.objects.filter(id=podcast_id).first()
+        if not podcast:
+            raise Exception('Invalid Podcast!')
+        playlist = Playlist.objects.filter(id=playlist_id).first()
+        if not playlist:
+            raise Exception('Invalid Playlist!')
+
+        playlist.podcasts.add(podcast)
+        playlist.save()
+
+        return AddPodcastToPlaylist(user=user, podcast=podcast, playlist=playlist)
+
+
 #4
 class Mutation(graphene.ObjectType):
     create_playlist = CreatePlaylist.Field()
+    add_podcast_to_playlist = AddPodcastToPlaylist.Field()
