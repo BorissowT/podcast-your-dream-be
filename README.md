@@ -22,3 +22,14 @@ query{
     linkToApi
   }
 }
+
+### Authorisation
+
+mutation { tokenAuth(username:"tim",password:"12345"){ token } }
+
+query{
+  me{
+    id
+    username
+  }
+}
