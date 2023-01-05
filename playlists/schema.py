@@ -24,8 +24,13 @@ class Query(graphene.ObjectType):
     )
 
     def resolve_playlists(self, info, search=None, first=None, skip=None, **kwargs):
-        qs = Playlist.objects.all()
-
+        user = info.context.user or None
+        if user.is_anonymous:
+            raise GraphQLError('You must be logged to see playlists!')
+        if user.is_staff:
+            qs = Playlist.objects.all()
+        else:
+            qs = Playlist.objects.filter(user=user).all()
         if search:
             filter = (
                 Q(title__icontains=search)
@@ -44,7 +49,7 @@ class Query(graphene.ObjectType):
 class CreatePlaylist(graphene.Mutation):
     id = graphene.Int()
     title = graphene.String()
-    user_id = graphene.Field(UserType)
+    user = graphene.Field(UserType)
 
     class Arguments:
         title = graphene.String()
@@ -53,7 +58,7 @@ class CreatePlaylist(graphene.Mutation):
         user = info.context.user or None
 
         playlist = Playlist(
-            user_id=user,
+            user=user,
             title=title,
         )
         playlist.save()
@@ -61,7 +66,7 @@ class CreatePlaylist(graphene.Mutation):
         return CreatePlaylist(
             id=playlist.id,
             title=playlist.title,
-            user_id=playlist.user_id
+            user=playlist.user
         )
 
 
@@ -77,12 +82,14 @@ class AddPodcastToPlaylist(graphene.Mutation):
     def mutate(self, info, podcast_id, playlist_id):
         user = info.context.user
         if user.is_anonymous:
-            raise GraphQLError('You must be logged to vote!')
+            raise GraphQLError('You must be logged to add podcasts to playlists!')
 
         podcast = Podcast.objects.filter(id=podcast_id).first()
         if not podcast:
             raise Exception('Invalid Podcast!')
         playlist = Playlist.objects.filter(id=playlist_id).first()
+        if playlist.user != user:
+            raise Exception('not allowed')
         if not playlist:
             raise Exception('Invalid Playlist!')
 

@@ -42,9 +42,47 @@ mutation{
   }
 }
 
+query{
+  playlists{
+    id
+    title
+    user{
+      id
+      username
+    }
+    podcasts{
+      id
+      title
+    }
+  }
+}
+
+mutation{
+  createTagsCollection(title:"testCollection", tags:["insomnia", "depression", "night"]){
+    title,
+    tags
+  }
+}
+
+query{
+  tagsCollections{
+    id
+    title
+    user{
+      id
+      username
+    }
+    tags
+  }
+}
+
 ### Authorisation
 
 mutation { tokenAuth(username:"tim",password:"12345"){ token } }
+
+{
+  "AUTHORIZATION": "JWT <token>"
+}
 
 query{
   me{

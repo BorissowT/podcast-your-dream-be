@@ -41,6 +41,7 @@ INSTALLED_APPS = [
 
     'playlists',
     'podcasts',
+    'tags_collection'
 ]
 
 MIDDLEWARE = [
