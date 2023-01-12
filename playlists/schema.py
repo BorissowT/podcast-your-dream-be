@@ -25,12 +25,13 @@ class Query(graphene.ObjectType):
 
     def resolve_playlists(self, info, search=None, first=None, skip=None, **kwargs):
         user = info.context.user or None
-        if user.is_anonymous:
-            raise GraphQLError('You must be logged to see playlists!')
+        # if user.is_anonymous:
+        #     raise GraphQLError('You must be logged to see playlists!')
         if user.is_staff:
             qs = Playlist.objects.all()
         else:
-            qs = Playlist.objects.filter(user=user).all()
+            # qs = Playlist.objects.filter(user=user).all()
+            qs = Playlist.objects.all()
         if search:
             filter = (
                 Q(title__icontains=search)

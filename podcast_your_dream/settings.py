@@ -25,7 +25,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -41,7 +41,8 @@ INSTALLED_APPS = [
 
     'playlists',
     'podcasts',
-    'tags_collection'
+    'tags_collection',
+    'corsheaders'
 ]
 
 MIDDLEWARE = [
@@ -53,6 +54,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    "corsheaders.middleware.CorsMiddleware"
 ]
 
 ROOT_URLCONF = 'podcast_your_dream.urls'
@@ -144,4 +146,28 @@ AUTHENTICATION_BACKENDS = [
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'podcast-frontend/build/static'),
+]
+
+CORS_ORIGIN_ALLOW_ALL = True
+
+CORS_ALLOW_CREDENTIALS = True
+
+CORS_ALLOW_METHODS = [
+    "DELETE",
+    "GET",
+    "OPTIONS",
+    "PATCH",
+    "POST",
+    "PUT",
+]
+CORS_ALLOW_HEADERS = [
+    "accept",
+    "accept-encoding",
+    "authorization",
+    "content-type",
+    "dnt",
+    "origin",
+    "user-agent",
+    "x-csrftoken",
+    "x-requested-with",
 ]
