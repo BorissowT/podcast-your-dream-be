@@ -7,14 +7,10 @@ query {
     playlists{
       id
       title
-      user{
-        id
-        username
-      }
       podcasts{
         id
         title
-      }
+      }  
     }
 }
 `
@@ -22,11 +18,19 @@ query {
 
 const Playlist = () => {
     const { loading, error, data } = useQuery(PLAYLISTS_QUERY);
+    if (loading) return 'Loading...';
+    if (error) return `Error! ${error.message}`;
+  
     console.log(data);
     return (
       <div>
         { data.playlists.map((playlist) => (
-          playlist.id
+        <div className="playlist">
+          <div id="id">{playlist.id}</div>
+          <div id="title">{playlist.title}</div>
+          { playlist.podcasts.map((podcast) => (<Podcast key={podcast.id} podcast={podcast} />))}
+          <br></br>
+         </div>
         ))}
       </div>
     );

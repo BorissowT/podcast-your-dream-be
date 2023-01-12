@@ -12,25 +12,15 @@ query{
 `
 ;
 
-const Podcast = () => {
-  const { loading, error, data } = useQuery(PODCASTS_QUERY);
-  console.log(data);
-  if (loading) return 'Loading...';
-  if (error) return `Error! ${error.message}`;
+const Podcast = (props) => {
+  const { podcast } = props;
 
   return (
-    <div>
-      {data && (
-        <>
-          {data.podcasts.map((podcast) => (<div className="podcast">
-              <div id="id">{podcast.id}</div>
-              <div id="linkToApi">{podcast.linkToApi}</div>
-              <div id="title">{podcast.title}</div>
-              <br></br>
-             </div>
-          ))}
-        </>
-      )}
+    <div className="podcast">
+      <div id="id">{podcast.id}</div>
+      <div id="linkToApi">{podcast.linkToApi}</div>
+      <div id="title">{podcast.title}</div>
+      <br></br>
     </div>
   );
 };

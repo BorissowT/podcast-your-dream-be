@@ -4,7 +4,7 @@ import Podcast from './Podcast';
 
 class App extends Component {
   render() {
-    return <Podcast />;
+    return <Playlist />;
   }
 }
 
