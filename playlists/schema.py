@@ -57,7 +57,6 @@ class CreatePlaylist(graphene.Mutation):
 
     def mutate(self, info, title):
         user = info.context.user or None
-
         playlist = Playlist(
             user=user,
             title=title,
@@ -72,6 +71,7 @@ class CreatePlaylist(graphene.Mutation):
 
 
 class AddPodcastToPlaylist(graphene.Mutation):
+    # TODO create podcast here
     user = graphene.Field(UserType)
     podcast = graphene.Field(PodcastType)
     playlist = graphene.Field(PlaylistType)

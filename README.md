@@ -11,7 +11,8 @@ mutation {
 
 mutation {
   createPodcast(title:"test", linkToApi:"https://www.google.com/maps") {
-    title
+      title
+      linkToApi
   }
 }
 
