@@ -1,5 +1,6 @@
 import { useMutation, gql } from '@apollo/client';
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const CREATE_PODCAST_MUTATION  = gql`
 mutation CreatePodcast($title: String!, $linkToApi: String!){
@@ -12,6 +13,7 @@ mutation CreatePodcast($title: String!, $linkToApi: String!){
 
 
 const CreatePodcast = () => {
+  const navigate = useNavigate();
   const [formState, setFormState] = useState({
     linkToApi: '',
     title: ''
@@ -21,7 +23,8 @@ const CreatePodcast = () => {
     variables: {
       title: formState.title,
       linkToApi: formState.linkToApi
-    }
+    },
+    onCompleted: () => navigate('/')
   })
 
   return (
