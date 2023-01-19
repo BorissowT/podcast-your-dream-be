@@ -3,6 +3,7 @@ import CreatePodcast from './CreatePodcast';
 import Header from './Header';
 import Playlist from './Playlists';
 import { Route, Routes } from 'react-router-dom';
+import Login from './Login';
 
 const App = () => {
   return (
@@ -15,6 +16,7 @@ const App = () => {
             path="/create"
             element={<CreatePodcast/>}
           />
+          <Route path="/login" element={<Login/>} />
         </Routes>
       </div>
     </div>

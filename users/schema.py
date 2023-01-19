@@ -31,14 +31,22 @@ class CreateUser(graphene.Mutation):
         username = graphene.String(required=True)
         password = graphene.String(required=True)
         email = graphene.String(required=True)
-        is_staff = graphene.Boolean(required=True)
+        # is_staff = graphene.Boolean(required=True)
 
-    def mutate(self, info, username, password, email, is_staff):
-        user = get_user_model()(
-            username=username,
-            email=email,
-            is_staff=is_staff
-        )
+    def mutate(self, info, username, password, email):
+        user = info.context.user
+        if user.is_staff:
+            user = get_user_model()(
+                username=username,
+                email=email,
+                is_staff=True
+            )
+        else:
+            user = get_user_model()(
+                username=username,
+                email=email,
+                is_staff=False
+            )
         user.set_password(password)
         user.save()
 
