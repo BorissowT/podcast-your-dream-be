@@ -4,6 +4,9 @@ import Header from './Header';
 import Playlist from './Playlists';
 import { Route, Routes } from 'react-router-dom';
 import Login from './Login';
+import Search from './Search';
+
+
 
 const App = () => {
   return (
@@ -11,7 +14,7 @@ const App = () => {
       <Header />
       <div className="ph3 pv1 background-gray">
         <Routes>
-          <Route path="/" element={<Playlist/>} />
+          <Route path="/" element={<Search/>} />
           <Route
             path="/create"
             element={<CreatePodcast/>}

@@ -2,59 +2,50 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AUTH_TOKEN } from '../constants';
 
+import "bootstrap/dist/css/bootstrap.min.css"
+
+
 const Header = () => {
   const navigate = useNavigate();
   const authToken = localStorage.getItem(AUTH_TOKEN);
 
   return (
-    <div className="flex pa1 justify-between nowrap orange">
-      <div className="flex flex-fixed black">
+    
+      <nav class="p-2 navbar navbar-expand-md navbar-light bg-light">
         <Link to="/" className="no-underline black">
-          <div className="fw7 mr1">Podcast Your dream </div>
-        </Link>        
-        <Link to="/" className="ml1 no-underline black">
-          new
-        </Link>
-        <div className="ml1">|</div>
-        <Link
-          to="/search"
-          className="ml1 no-underline black"
-        >
-          search
-        </Link>
-        {authToken && (
-          <div className="flex">
-            <div className="ml1">|</div>
-            <Link
-              to="/create"
-              className="ml1 no-underline black"
-            >
-              submit
-            </Link>
-          </div>
-        )}
-      </div>
-      <div className="flex flex-fixed">
-        {authToken ? (
-          <div
-            className="ml1 pointer black"
-            onClick={() => {
-              localStorage.removeItem(AUTH_TOKEN);
-              navigate(`/`);
-            }}
-          >
-            logout
-          </div>
-        ) : (
-          <Link
-            to="/login"
-            className="ml1 no-underline black"
-          >
-            login
-          </Link>
-        )}
-      </div>
-    </div>
+          <a class="navbar-brand " href="#">Podcast Your dream</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+              <span class="navbar-toggler-icon"></span>
+          </button>
+        </Link>   
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home </a>
+                </li>
+            </ul>
+            <ul class="navbar-nav">
+              <Link
+                to="/login"
+                className="ml1 no-underline black"
+              >
+                <li class="nav-item">
+                      <a class="nav-link" href="login">Login</a>
+                  </li>
+              </Link>
+              <Link
+                to="/login"
+                className="ml1 no-underline black"
+              >
+                <li class="nav-item">
+                    <a class="nav-link"href="new_user">Signup</a>
+                </li>
+              </Link>  
+            </ul>
+        </div>
+    </nav>
+  
+
   );
 };
 
