@@ -1,0 +1,31 @@
+.search-input{
+  width: 40%;
+  height: 300px;
+}
+.title{
+  height: auto;
+  text-align: center;
+  vertical-align: middle
+}
+
+.search-container{
+  height: 10em;
+}
+
+.item{
+  height: 2em;
+  width: auto;
+  padding: auto;
+  padding-left: 10px;
+  padding-right: 10px;
+  background-color: #f8f9fa;
+  border: 1px solid rgb(104, 100, 100);
+  border-radius: 10px;
+  text-align: center;
+  margin: 0.2em;
+  cursor: pointer;
+}
+
+.item:hover{
+  background-color: rgb(238, 230, 230);
+}
