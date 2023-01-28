@@ -9,6 +9,7 @@ const Search = () => {
 
 const myInterests = [];
 var engineSuggestions = [];
+var synonymsArray = [];
 
 function checkIfItemInInterests(item){
     var state = true;
@@ -92,10 +93,10 @@ function addSuggestionToMyInterests(elem){
   addToMyIntersts(elem.text());
 }
 
-function addButtonMoreTags(synonymsArray){
+function addButtonMoreTags(){
   $("#getMoreTags").remove();
   if(synonymsArray.length>1){
-    $("#search_field").after($('<div class="row my-1"><div class="col col-xs-12 text-center"><button id="getMoreTags" class="btn btn-light btn-lg">More suggestions +</button></div></div>'));
+    $("#engine_suggestion").after($('<div class="row my-1"><div class="col col-xs-12 text-center"><button id="getMoreTags" class="btn btn-light btn-lg">More suggestions +</button></div></div>'));
     $("#getMoreTags").on("click",()=>{
       fill30synonyms(synonymsArray);
     })
@@ -124,7 +125,7 @@ function getSynonymsArrayFromRespond(data){
 
 function callForSynonyms(info){
   $.getJSON(`https://api.datamuse.com/words?ml=${info}`,(data)=>{
-    var synonymsArray = getSynonymsArrayFromRespond(data);
+    synonymsArray = getSynonymsArrayFromRespond(data);
     if($(".engine").children().length == 0){
         $("#engine_suggestion").append($("<h4>Engine's suggestions:</h4>"));
         fill30synonyms(synonymsArray);
