@@ -32,26 +32,9 @@ function removeItemFromInterests(info, $item){
   renderList();
 }
 
-function disableGetPodcastsButton(){
-  $("#getPlaylistBtn").attr("disabled","");
-}
-
-function enableGetPodcastsButton(){
-  $("#getPlaylistBtn").removeAttr("disabled");
-  $("#getPlaylistBtn").on("click",()=>{
-    getPodcastsOnClick();
-  })
-}
-
 function renderList(){
   if(myInterests.length==1 && $('#interests_title').length==0){
     $("#tags-box-title").append($("<h3 id='interests_title'>My tags:</h3>"));
-  }
-  if(myInterests.length==0){
-    disableGetPodcastsButton();
-  }
-  if(myInterests.length>0){
-    enableGetPodcastsButton();
   }
   $('#tags-box').empty();
   for (const tag of myInterests) {
@@ -144,7 +127,6 @@ function callForSynonyms(info){
 
 function clearSearchField(){
   $("#engine_suggestion").empty();
-  disableGetPodcastsButton();
   $("#tags-box-title").empty();
   $("#tags-box").empty();
   $("#engine").empty();
@@ -171,8 +153,8 @@ function* ajaxItunes(){
 
  function getbestMatchesItunes(duplicatesIds){
   duplicatesIds.forEach((dupl)=>{
-    itunesResponse.forEach((resp)=>{
-      if(dupl.trackid==resp.trackId){
+    itunesResponse.forEach((resp)=>{ 
+      if(dupl.trackid == resp.trackId){
         if(ifMatchInBestMatchesItunes(resp)){
           bestMatchesItunes.push(resp);
         }
@@ -262,19 +244,6 @@ function fillPictures(){
 
 function fillInfoInNewPage(){
   var matchGen = BestMatchGenerator();
-  matchGen.next();
-  $(".carousel-control-next").on("click", ()=>{
-    matchGen.next("next");
-  });
-  $(".carousel-control-prev").on("click", ()=>{
-    matchGen.next("prev");
-  });
-  $(".carousel-item").children().first().attr("src", bestMatchesItunes[0].artworkUrl600);
-  fillPictures();
-  setTimeout(()=>{
-    $(".carousel-control-next").effect("shake");
-    $(".carousel-control-prev").effect("shake");
-  }, 1000);
 }
 
 const shuffle = (array) => {
@@ -295,14 +264,14 @@ function getElsePodcasts(){
     canvas.css("opacity", 1);
     var first10 = itunesResponse.splice(0,9);
     first10.forEach((elem)=>{
-    canvas.append($(`<div class="d-flex flex-wrap my-2"><img class="else_picture" src="${elem.artworkUrl600}" height="150px"><div class="ml-2"><div class="elseTitle" id="${elem.trackId}">${elem.trackName}</div><h6>by:${elem.artistName}</h6><h6>keywords:</h6><p>${elem.genres}</p><button value="${elem.feedUrl}" class="get_description"><a target="_blank" href="${elem.trackViewUrl}">Get more</a></button></div></div><hr>`)
+    canvas.append($(`<div class="d-flex flex-wrap my-2"><img class="else_picture" src="${elem.artworkUrl600}" height="150px"><div class="ml-2"><div class="elseTitle" id="${elem.trackId}">${elem.trackName}</div><h6>by:${elem.artistName}</h6><h6>keywords:</h6><p>${elem.genres}</p><button value="${elem.feedUrl}" class="get_description"><a target="_blank" href="${elem.trackViewUrl}">Info link</a></button></div></div><hr>`)
     );
   })
   });
 }
 
 function createNewPageForResult(){
-  $(".optional_search_page").append($('<div class="result_podcasts"><div class="d-flex mx-0 mb-4"><h3>Itunes Podcasts the best match</h3></div><div class="result_container"><div id="carouselExampleInterval" class="carousel slide mt-4 ml-4" data-ride="carousel"><div class="carousel-inner"><div class="carousel-item active" data-interval=""><img class="d-block w-100" src="..." alt="First slide"></div></div><a class="carousel-control-prev ok" href="#carouselExampleInterval" role="button" data-slide="prev"><span class="carousel-control-prev-icon" aria-hidden="true"></span><span class="sr-only">Previous</span></a><a class="carousel-control-next" href="#carouselExampleInterval" role="button" data-slide="next"><span class="carousel-control-next-icon" aria-hidden="true"></span><span class="sr-only">Next</span></a></div><div class="description_area pl-4 pt-2"><h4 class="podcast_title mb-2"></h4><div class="d-flex"><h6>by:</h6><h6 class="ml-2 podcast_author"></h6></div><h6 id="description_title">Description:</h6><p class="podcast_description"></p><h6>link:</h6><a href="" class="ml-2 podcast_link" target="_blank"></a><h6>keywords:</h6><p class="ml-2 podcast_keywords"></h6></div></div><h3 id="elseTitle" class="my-2"></h3><div class="mt-3 else_podcasts"></div><div class="d-flex justify-content-center"><button class="getElseButton">Get else</button></div></div>'));
+  $(".optional_search_page").append($('<div class="result_podcasts"><div class="d-flex mx-0 mb-4"><h3>Itunes Podcasts the best match</h3></div><div class="result_container"><h4 class="podcast_title mb-2"></h4><div class="d-flex"><h6>by:</h6><h6 class="ml-2 podcast_author"></h6></div><h6 id="description_title">Description:</h6><p class="podcast_description"></p><h6>link:</h6><a href="" class="ml-2 podcast_link" target="_blank"></a><h6>keywords:</h6><p class="ml-2 podcast_keywords"></h6></div></div><h3 id="elseTitle" class="my-2"></h3><div class="mt-3 else_podcasts"></div><div class="d-flex justify-content-center"><button class="getElseButton">Get more similar</button></div></div>'));
   // $('.carousel').carousel({
   //   interval: false
   // });
@@ -317,7 +286,7 @@ function setListenerToElseButton(){
 };
 
 function setFailureCanvas(){
-  $(".optional_search_page").append($('<div class="d-flex justify-content-center"><h3>Seems to be empty here... check out these podcasts or try to search again</h3></div><div class="mx-4"><div class="mt-3 else_podcasts"></div><div class="d-flex justify-content-center"><button  class="getElseButton">Get else</button></div></div>'));
+  $(".optional_search_page").append($('<div class="d-flex justify-content-center"><h3>Check out these podcasts</h3></div><div class="mx-4"><div class="mt-3 else_podcasts"></div><div class="d-flex justify-content-center"><button  class="getElseButton">Get else</button></div></div>'));
 };
 
 function showItunesPodcasts(){
@@ -336,13 +305,19 @@ function showItunesPodcasts(){
 
 function requestToItunes(){
   Promise.all(ajaxItunes())
-    .then(()=>{filterSimilarPodcasts()})
-    .then(()=>{showItunesPodcasts()});
+    .then(()=>{filterSimilarPodcasts();
+      
+    })
   }
+
+function fillBestMatches(){
+  showItunesPodcasts();
+};
 
 function getPodcastsOnClick() {
   clearSearchField();
   requestToItunes();
+  fillBestMatches();
 };
 
 function addTag() {
@@ -369,7 +344,7 @@ function addTag() {
         </span>
       </div>
       <div class="d-flex justify-content-center px-2 mt-3">
-            <button onClick={getPodcastsOnClick} id="getPlaylistBtn" class="btn btn-light btn-lg" disabled>
+            <button id="getPlaylistBtn" onClick={getPodcastsOnClick} class="btn btn-light btn-lg">
               Get podcasts
             </button>
       </div>

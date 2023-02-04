@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { useMutation, gql } from '@apollo/client';
 import { useNavigate } from 'react-router-dom';
 import { AUTH_TOKEN } from '../constants';
+import "../styles/Login.css";
+
+import "bootstrap/dist/css/bootstrap.min.css"
 
 const Login = () => {
   const SIGNUP_MUTATION = gql`
@@ -69,66 +72,52 @@ const LOGIN_MUTATION = gql`
       <h4 className="mv3">
         {formState.login ? 'Login' : 'Sign Up'}
       </h4>
-      <div className="flex flex-column">
-        {!formState.login && (
-          <input
-            value={formState.email}
-            onChange={(e) =>
-              setFormState({
-                ...formState,
-                email: e.target.value
-              })
-            }
-            type="text"
-            placeholder="Your email"
-          />
-        )}
-        <input
-          value={formState.username}
-          onChange={(e) =>
-            setFormState({
-              ...formState,
-              username: e.target.value
-            })
-          }
-          type="text"
-          placeholder="Your username"
-        />
-        <input
-          value={formState.password}
-          onChange={(e) =>
-            setFormState({
-              ...formState,
-              password: e.target.value
-            })
-          }
-          type="password"
-          placeholder="Choose a safe password"
-        />
+      {!formState.login && (
+      <div class="form-group">
+        <label for="exampleInputEmail1">Email address</label>
+        <input type="email"  onChange={(e) =>
+          setFormState({
+            ...formState,
+            email: e.target.value
+          })
+        } class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email"></input>
+        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
       </div>
-      <div className="flex mt3">
-        <button
-          className="pointer mr2 button"
-          onClick={formState.login ? login : signup}
-        >
-          {formState.login ? 'login' : 'create account'}
-        </button>
-        <button
-          className="pointer button"
-          onClick={(e) =>
-            setFormState({
-              ...formState,
-              login: !formState.login
-            })
-          }
-        >
-          {formState.login
-            ? 'need to create an account?'
-            : 'already have an account?'}
-        </button>
+      )}
+      <div class="form-group">
+        <label for="usernameInput">Username</label>
+        <input type="username" 
+        onChange={(e) =>
+          setFormState({
+            ...formState,
+            username: e.target.value
+          })
+        } class="form-control" id="usernameInput" aria-describedby="usernameHelp" placeholder="Enter username"></input>
+        
+      </div>    
+
+      <div class="form-group">
+        <label for="exampleInputPassword1">Password</label>
+        <input value={formState.password} onChange={(e) =>
+          setFormState({
+            ...formState,
+            password: e.target.value
+          })
+        } type="password" class="form-control" id="exampleInputPassword1" placeholder="Password"></input>
       </div>
+      <div class="mt-1">
+        <button onClick={formState.login ? login : signup} class="btn btn-primary">Login</button>
+        <button onClick={(e) =>
+          setFormState({
+            ...formState,
+            login: !formState.login
+          })
+        } class="mx-1 btn btn-dark">{formState.login
+          ? 'Need to create an account?'
+          : 'Already have an account?'}</button>
+      </div>      
     </div>
-  );
+  )
 };
 
 export default Login;
