@@ -35,16 +35,31 @@ const Header = () => {
                     <a class="nav-link" href="/user">My Profile</a>
                 </li>
                 </Link>
-                <Link
+                
+
+              </div>
+            )}
+            {authToken ? (
+              <div
+                className=" flex ml1 pointer black"
+                onClick={() => {
+                  localStorage.removeItem(AUTH_TOKEN);
+                  navigate(`/`);
+                }}
+              >
+              <li class="nav-item">
+                    <a class="nav-link" href="login">Logout</a>
+                </li>
+              </div>
+            ) : (
+              <Link
                 to="/login"
                 className="ml1 no-underline black"
               >
                 <li class="nav-item">
-                      <a class="nav-link" href="login">Logout</a>
+                      <a class="nav-link" href="login">Login</a>
                   </li>
               </Link>  
-
-              </div>
             )}
              
             </ul>
