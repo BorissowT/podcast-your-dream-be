@@ -5,7 +5,7 @@ import Playlist from './Playlists';
 import { Route, Routes } from 'react-router-dom';
 import Login from './Login';
 import Search from './Search';
-
+import User from './User';
 
 
 const App = () => {
@@ -20,6 +20,7 @@ const App = () => {
             element={<CreatePodcast/>}
           />
           <Route path="/login" element={<Login/>} />
+          <Route path="/user" element={<User/>} />
         </Routes>
       </div>
     </div>

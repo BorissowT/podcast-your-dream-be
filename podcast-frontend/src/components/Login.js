@@ -7,6 +7,7 @@ import "../styles/Login.css";
 import "bootstrap/dist/css/bootstrap.min.css"
 
 const Login = () => {
+  
   const SIGNUP_MUTATION = gql`
   mutation SignupMutation(
     $email: String!
@@ -44,6 +45,7 @@ const LOGIN_MUTATION = gql`
     password: '',
     email: ''
   });
+  
 
   const [login] = useMutation(LOGIN_MUTATION, {
     variables: {
@@ -66,6 +68,8 @@ const LOGIN_MUTATION = gql`
       navigate('/');
     }
   });
+
+  
 
   return (
     <div>

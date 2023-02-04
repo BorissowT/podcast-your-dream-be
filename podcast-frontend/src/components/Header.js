@@ -25,22 +25,28 @@ const Header = () => {
                 </li>
             </ul>
             <ul class="navbar-nav">
-              <Link
-                to="/login"
-                className="ml1 no-underline black"
-              >
+            {authToken && (
+              <div className="flex">
+                <Link
+                  to="/user"
+                  className="ml1 no-underline black"
+                >
                 <li class="nav-item">
-                      <a class="nav-link" href="login">Login</a>
-                  </li>
-              </Link>
-              <Link
-                to="/login"
-                className="ml1 no-underline black"
-              >
-                <li class="nav-item">
-                    <a class="nav-link"href="new_user">Signup</a>
+                    <a class="nav-link" href="/user">My Profile</a>
                 </li>
+                </Link>
+                <Link
+                to="/login"
+                className="ml1 no-underline black"
+              >
+                <li class="nav-item">
+                      <a class="nav-link" href="login">Logout</a>
+                  </li>
               </Link>  
+
+              </div>
+            )}
+             
             </ul>
         </div>
     </nav>
