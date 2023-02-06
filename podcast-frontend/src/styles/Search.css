@@ -85,6 +85,10 @@ background-color: rgb(105, 136, 105)  ;
   
 }
 
+a { color: inherit;
+    text-decoration: none;    
+} 
+
 .carousel-control-prev{
   height: 90%;
 }
@@ -157,4 +161,22 @@ h6{
 
 .else_picture{
   border-radius: 10px;
+}
+
+.like_box{
+  height: 2em;
+  width: auto;
+  padding: auto;
+  padding-left: 10px;
+  padding-right: 10px;
+  background-color: #f8f9fa;
+  border: 1px solid rgb(104, 100, 100);
+  border-radius: 10px;
+  text-align: center;
+  margin-left: 5px;
+  cursor: pointer;
+}
+
+.like_box:hover{
+  background-color: rgb(177, 177, 177)  ;
 }

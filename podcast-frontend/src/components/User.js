@@ -5,6 +5,7 @@ import Playlist from './Playlists';
 import { Route, Routes } from 'react-router-dom';
 import Login from './Login';
 import Search from './Search';
+import { useSearchParams } from "react-router-dom";
 
 import {
   MDBCol,
@@ -27,6 +28,10 @@ import {
 
 
 const User = () => {
+  console.log("opened");
+  const [searchParams, setSearchParams] = useSearchParams();
+  console.log(searchParams.get("__title"))
+  console.log(searchParams.get("__link"))
   return (
     <section style={{ backgroundColor: '#eee' }}>
       <MDBContainer className="py-5">
