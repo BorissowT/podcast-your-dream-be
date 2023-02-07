@@ -296,25 +296,6 @@ function connectFunctionalityToLike(){
 }
 
 
-function jqueryFn(){
-
-  shuffle(itunesResponse);
-  $("#elseTitle").text("Similar to the searched");
-  var canvas = $(".else_podcasts");
-  canvas.fadeTo( "slow" , 0.1, function() {
-    canvas.empty();
-    canvas.css("opacity", 1);
-    var first10 = itunesResponse.splice(0,9);
-    first10.forEach((elem)=>{
-
-    canvas.append($(`<div class="d-flex flex-wrap my-2"><img class="else_picture" src="${elem.artworkUrl600}" height="150px"><div class="mx-2"><div class="elseTitle" id="${elem.trackId}">${elem.trackName}</div><h6>by:${elem.artistName}</h6><h6>keywords:</h6><p>${elem.genres}</p><div class="d-flex justify-content-start"><button value="${elem.feedUrl}" class="get_description"><a target="_blank" href="${elem.trackViewUrl}">Info link</a></i></button><div title=${elem.trackName} link=${elem.feedUrl} class="like_box"><i id="like" title=${elem.trackName} link=${elem.feedUrl} class="fa fa-thumbs-up"></div></div></div><hr>`)
-    );
-    connectFunctionalityToLike();
-  })
-  });
-
-}
-
 
 // function ReactWrapper() {
 //   const { loading, error, data } = useQuery(ME_QUERY);

@@ -1,11 +1,7 @@
-import React from 'react';
-import CreatePodcast from './CreatePodcast';
-import Header from './Header';
-import Playlist from './Playlists';
-import { Route, Routes } from 'react-router-dom';
-import Login from './Login';
-import Search from './Search';
+import React, { useState, useEffect } from 'react';
+import { useMutation, gql } from '@apollo/client';
 import { useSearchParams } from "react-router-dom";
+
 
 import {
   MDBCol,
@@ -24,30 +20,77 @@ import {
   MDBListGroup,
   MDBListGroupItem
 } from 'mdb-react-ui-kit';
-
-
+import Podcast from './Podcast';
 
 const User = () => {
-  console.log("opened");
+
   const [searchParams, setSearchParams] = useSearchParams();
-  console.log(searchParams.get("__title"))
-  console.log(searchParams.get("__link"))
+  var title = searchParams.get("__title");
+  var link = searchParams.get("__link");
+
+  const CREATE_PODCAST_MUTATION  = gql`
+  mutation CreatePodcast($title: String!, $linkToApi: String!){
+    createPodcast(title: $title, linkToApi: $linkToApi) {
+        id
+    }
+  }
+  `;
+
+  const ADD_PODCAST_TO_PLAYLIST  = gql`
+  mutation addPodcastToPlaylist($podcastId: String!, $playlistId: String!){
+    addPodcastToPlaylist(podcastId: 1, playlistId: 4){
+    }
+  }
+  `;
+
+
+
+  const [CreatePodcast] = useMutation(CREATE_PODCAST_MUTATION, {
+    variables: {
+      title:title,
+      linkToApi: link
+    },
+    onError: (error) => {
+      console.log(error)
+    },
+  })
+
+  const [addPodcastToPlaylist] = useMutation(ADD_PODCAST_TO_PLAYLIST, {
+    variables: {
+      podcastId:podcastId,
+      playlistId: 4
+    },
+    onError: (error) => {
+      console.log(error)
+    },
+  })
+
+  useEffect(() => {
+    let ignore = false;
+    
+    if (!ignore) { 
+      CreatePodcast().then(function(result) {
+        result.data.createPodcast.id;
+
+        useMutation(ADD_PODCAST_TO_PLAYLIST, {
+          variables: {
+            podcastId:podcastId,
+            playlistId: 4
+          },
+          onError: (error) => {
+            console.log(error)
+          },
+        })
+    });
+    } 
+    return () => { ignore = true; }
+    },[]);
+  
+
+
   return (
     <section style={{ backgroundColor: '#eee' }}>
       <MDBContainer className="py-5">
-        <MDBRow>
-          <MDBCol>
-            <MDBBreadcrumb className="bg-light rounded-3 p-3 mb-4">
-              <MDBBreadcrumbItem>
-                <a href='#'>Home</a>
-              </MDBBreadcrumbItem>
-              <MDBBreadcrumbItem>
-                <a href="#">User</a>
-              </MDBBreadcrumbItem>
-              <MDBBreadcrumbItem active>User Profile</MDBBreadcrumbItem>
-            </MDBBreadcrumb>
-          </MDBCol>
-        </MDBRow>
 
         <MDBRow>
           <MDBCol lg="4">

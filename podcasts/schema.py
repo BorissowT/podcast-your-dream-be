@@ -1,7 +1,9 @@
 import graphene
 from graphene_django import DjangoObjectType
 from django.db.models import Q
+from graphql import GraphQLError
 
+from playlists.models import Playlist
 from podcasts.models import Podcast
 
 
@@ -61,14 +63,25 @@ class CreatePodcast(graphene.Mutation):
     class Arguments:
         link_to_api = graphene.String()
         title = graphene.String()
+        playlist_id = graphene.Int()
 
-    def mutate(self, info, link_to_api, title):
+    def mutate(self, info, link_to_api, title, playlist_id):
+        user = info.context.user
+        if user.is_anonymous:
+            raise GraphQLError('You must be logged to add podcasts to playlists!')
+        playlist = Playlist.objects.filter(id=playlist_id).first()
+        if playlist.user != user:
+            raise Exception('not allowed')
+        if not playlist :
+            raise Exception('Invalid Playlist!')
 
         podcast = Podcast(
             link_to_api=link_to_api,
             title=title,
         )
         podcast.save()
+        playlist.podcasts.add(podcast)
+        playlist.save()
 
         return CreatePodcast(
             id=podcast.id,
