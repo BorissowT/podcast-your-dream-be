@@ -63,9 +63,9 @@ class CreatePodcast(graphene.Mutation):
     class Arguments:
         link_to_api = graphene.String()
         title = graphene.String()
-        playlist_id = graphene.Int()
+        # playlist_id = graphene.Int()
 
-    def mutate(self, info, link_to_api, title, playlist_id):
+    def mutate(self, info, link_to_api, title, playlist_id=4):
         user = info.context.user
         if user.is_anonymous:
             raise GraphQLError('You must be logged to add podcasts to playlists!')
