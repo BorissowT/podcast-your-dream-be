@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useMutation, gql, useQuery } from '@apollo/client';
 import { useSearchParams, Link } from "react-router-dom";
 import "../styles/User.css";
+import axios from 'axios';
 
 
 import {
@@ -64,6 +65,8 @@ const User = () => {
   var link = searchParams.get("__link");
   var playlistId = 4;
 
+  
+
   const CREATE_PODCAST_MUTATION  = gql`
   mutation CreatePodcast($title: String!, $linkToApi: String!){
     createPodcast(title: $title, linkToApi: $linkToApi) {
@@ -84,14 +87,6 @@ const User = () => {
     },
   })
 
-  // const [QueryUser]  = useQuery(USER_QUERY,{
-  //   onCompleted: ({ data }) => {
-  //    console.log(data)
-  //   },
-  //   onError: (error) => {
-  //     console.log(error)
-  //   },
-  // });
 
   useEffect(() => {
     let ignore = false;
@@ -139,28 +134,28 @@ const User = () => {
 
             <MDBCard className="mb-4 mb-lg-0">
               <MDBCardBody className="p-0">
+
                 <MDBListGroup flush className="rounded-3">
                   <MDBListGroupItem className="d-flex justify-content-between align-items-center p-3">
-                    <MDBIcon fas icon="globe fa-lg text-warning" />
-                    <MDBCardText>https://mdbootstrap.com</MDBCardText>
+                    <div>title:</div>
+                    <MDBCardText>The Insomnia Fix:{}</MDBCardText>
                   </MDBListGroupItem>
+
                   <MDBListGroupItem className="d-flex justify-content-between align-items-center p-3">
-                    <MDBIcon fab icon="github fa-lg" style={{ color: '#333333' }} />
-                    <MDBCardText>mdbootstrap</MDBCardText>
+                    <div>summary:</div>
+                    <MDBCardText>The Insomnia Fix: How To Sleep Better</MDBCardText>
                   </MDBListGroupItem>
+
                   <MDBListGroupItem className="d-flex justify-content-between align-items-center p-3">
-                    <MDBIcon fab icon="twitter fa-lg" style={{ color: '#55acee' }} />
-                    <MDBCardText>@mdbootstrap</MDBCardText>
+                    <div>link:</div>
+                    <MDBBtn color='light' rippleColor='dark' >
+                          ITunes
+                        </MDBBtn>
                   </MDBListGroupItem>
-                  <MDBListGroupItem className="d-flex justify-content-between align-items-center p-3">
-                    <MDBIcon fab icon="instagram fa-lg" style={{ color: '#ac2bac' }} />
-                    <MDBCardText>mdbootstrap</MDBCardText>
-                  </MDBListGroupItem>
-                  <MDBListGroupItem className="d-flex justify-content-between align-items-center p-3">
-                    <MDBIcon fab icon="facebook fa-lg" style={{ color: '#3b5998' }} />
-                    <MDBCardText>mdbootstrap</MDBCardText>
-                  </MDBListGroupItem>
+
                 </MDBListGroup>
+
+
               </MDBCardBody>
             </MDBCard>
           </MDBCol>
@@ -172,7 +167,12 @@ const User = () => {
                     <MDBCardText>Nickname</MDBCardText>
                   </MDBCol>
                   <MDBCol sm="9">
-                    <MDBCardText className="text-muted">{me.username}</MDBCardText>
+                  <div class="d-flex justify-content-between align-items-center">           
+                        <MDBCardText className="text">{me.username}</MDBCardText>
+                        <MDBBtn color='light' rippleColor='dark' >
+                          Edit
+                        </MDBBtn>
+                  </div>                     
                   </MDBCol>
                 </MDBRow>
                 <hr />
@@ -211,31 +211,28 @@ const User = () => {
               <MDBCol md="6">
                 <MDBCard className="mb-4 mb-md-0">
                   <MDBCardBody>
-                    <MDBCardText className="mb-4"><span className="text-primary font-italic me-1">assigment</span> Project Status</MDBCardText>
-                    <MDBCardText className="mb-1" style={{ fontSize: '.77rem' }}>Web Design</MDBCardText>
-                    <MDBProgress className="rounded">
-                      <MDBProgressBar width={80} valuemin={0} valuemax={100} />
-                    </MDBProgress>
+                    <MDBCardText className="mb-4"> Related tags</MDBCardText>
 
-                    <MDBCardText className="mt-4 mb-1" style={{ fontSize: '.77rem' }}>Website Markup</MDBCardText>
-                    <MDBProgress className="rounded">
-                      <MDBProgressBar width={72} valuemin={0} valuemax={100} />
-                    </MDBProgress>
+                    <div class="btn-group-toggle" data-toggle="buttons">
+                      <label class="btn btn-secondary active m-1">
+                        Insomnia
+                      </label>
+                      <label class="btn btn-secondary active m-1">
+                        Sleep
+                      </label>
+                      <label class="btn btn-secondary active m-1">
+                        Anxious
+                      </label>
+                      <label class="btn btn-secondary active m-1">
+                        Night
+                      </label>
+                      <label class="btn btn-secondary active m-1">
+                        Burn out
+                      </label>
+                    </div>
 
-                    <MDBCardText className="mt-4 mb-1" style={{ fontSize: '.77rem' }}>One Page</MDBCardText>
-                    <MDBProgress className="rounded">
-                      <MDBProgressBar width={89} valuemin={0} valuemax={100} />
-                    </MDBProgress>
+                    
 
-                    <MDBCardText className="mt-4 mb-1" style={{ fontSize: '.77rem' }}>Mobile Template</MDBCardText>
-                    <MDBProgress className="rounded">
-                      <MDBProgressBar width={55} valuemin={0} valuemax={100} />
-                    </MDBProgress>
-
-                    <MDBCardText className="mt-4 mb-1" style={{ fontSize: '.77rem' }}>Backend API</MDBCardText>
-                    <MDBProgress className="rounded">
-                      <MDBProgressBar width={66} valuemin={0} valuemax={100} />
-                    </MDBProgress>
                   </MDBCardBody>
                 </MDBCard>
               </MDBCol>
@@ -250,7 +247,18 @@ const User = () => {
                     <div class=""><MDBCardText className="mb-1" style={{ fontSize: '.77rem' }}>{podcast.title}</MDBCardText></div>
                       <div class="d-flex  align-items-center flex-row">
                     
-                        <MDBBtn color='light' rippleColor='dark' >
+                        <MDBBtn id={podcast.linkToApi} color='light' rippleColor='dark' onClick={(e)=>{
+                          console.log(e.target.id)
+                          axios
+                          .get(e.target.id)
+                          .then(response => {
+                              console.log(response)
+                          })
+                          .catch(function(error) {
+                              // manipulate the error response here
+                          });
+                          
+                        }}>
                           Info
                         </MDBBtn>
                         <button id={podcast.id} type="button" class="btn-close mx-1" aria-label="Close"></button>
